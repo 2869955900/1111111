@@ -9,28 +9,25 @@ model = joblib.load('rsf.pkl')
 
 # 默认值
 default_values = {
-    "SDMA-ADMA_pos-140": 0.001121,
-    "Thymine_pos-150": 0.000069,
-    "Phosphocreatine_neg-067": 0.000018,
-    "Proline_pos-132": 0.111990,
-    "Glycerophosphorylcholine_pos-080": 0.006630,
-    "Guanidineacetic_acid_pos-087": 0.000432  # 使用下划线替代空格
+    "SDMA_ADMA_pos_140": 0.001121,
+    "Thymine_pos_150": 0.000069,
+    "Phosphocreatine_neg_067": 0.000018,
+    "Proline_pos_132": 0.111990,
+    "Glycerophosphorylcholine_pos_080": 0.006630,
+    "Guanidineacetic_acid_pos_087": 0.000432
 }
 
 # 创建函数，用于预测风险评分以及绘制累计风险函数和生存函数
 def predict_risk(SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067, 
                  Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087):
     
-    # 使用准确的列名，确保与训练时一致
-    correct_columns = ["SDMA-ADMA_pos-140", "Thymine_pos-150", "Phosphocreatine_neg-067",
-                       "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic_acid_pos-087"]  # 保证一致性
-
-    # 创建一个 DataFrame，确保列名与训练时一致
+    # 将输入特征数据转换为 DataFrame，并使用训练时的特征名
     input_data = pd.DataFrame([[SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
-                                Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087]], 
-                              columns=correct_columns)
+                                Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087]],
+                              columns=["SDMA-ADMA_pos-140", "Thymine_pos-150", "Phosphocreatine_neg-067",
+                                       "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic_acid_pos-087"])
 
-    # 使用模型进行预测，获取风险评分
+    # 预测风险评分
     risk_score = model.predict(input_data)[0]
     
     # 预测累计风险
@@ -69,15 +66,26 @@ st.title("Risk Prediction for Survival Analysis")
 st.write("Enter the feature values to predict the risk score and view the survival analysis plots.")
 
 # 创建输入框，用户可以输入特征值
-SDMA_ADMA_pos_140 = st.number_input("SDMA-ADMA_pos-140", value=default_values["SDMA-ADMA_pos-140"])
-Thymine_pos_150 = st.number_input("Thymine_pos-150", value=default_values["Thymine_pos-150"])
-Phosphocreatine_neg_067 = st.number_input("Phosphocreatine_neg-067", value=default_values["Phosphocreatine_neg-067"])
-Proline_pos_132 = st.number_input("Proline_pos-132", value=default_values["Proline_pos-132"])
-Glycerophosphorylcholine_pos_080 = st.number_input("Glycerophosphorylcholine_pos-080", value=default_values["Glycerophosphorylcholine_pos-080"])
-Guanidineacetic_acid_pos_087 = st.number_input("Guanidineacetic_acid_pos-087", value=default_values["Guanidineacetic_acid_pos-087"])
+SDMA_ADMA_pos_140 = st.number_input("SDMA_ADMA_pos_140", value=default_values["SDMA_ADMA_pos_140"])
+Thymine_pos_150 = st.number_input("Thymine_pos_150", value=default_values["Thymine_pos_150"])
+Phosphocreatine_neg_067 = st.number_input("Phosphocreatine_neg_067", value=default_values["Phosphocreatine_neg_067"])
+Proline_pos_132 = st.number_input("Proline_pos_132", value=default_values["Proline_pos_132"])
+Glycerophosphorylcholine_pos_080 = st.number_input("Glycerophosphorylcholine_pos_080", value=default_values["Glycerophosphorylcholine_pos_080"])
+Guanidineacetic_acid_pos_087 = st.number_input("Guanidineacetic_acid_pos_087", value=default_values["Guanidineacetic_acid_pos_087"])
 
 # 当用户点击 "Submit" 按钮时，进行预测并显示结果
 if st.button("Submit"):
     risk_score, cumulative_hazard_path, survival_function_path = predict_risk(
         SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
-        Proline_pos_132, Glycerophosph
+        Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087
+    )
+
+    # 显示风险评分
+    st.subheader(f"Risk Score: {risk_score}")
+
+    # 显示生存分析图
+    st.subheader("Cumulative Hazard Function")
+    st.image(cumulative_hazard_path)
+
+    st.subheader("Survival Function")
+    st.image(survival_function_path)
