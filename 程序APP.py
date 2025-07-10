@@ -7,9 +7,6 @@ from sksurv.ensemble import RandomSurvivalForest
 # 加载训练好的模型
 model = joblib.load('rsf.pkl')
 
-# 打印模型训练时使用的特征名
-print("Feature names used in training:", model.feature_names_in_)
-
 # 默认值
 default_values = {
     "SDMA-ADMA_pos-140": 0.001121,
@@ -17,7 +14,7 @@ default_values = {
     "Phosphocreatine_neg-067": 0.000018,
     "Proline_pos-132": 0.111990,
     "Glycerophosphorylcholine_pos-080": 0.006630,
-    "Guanidineacetic acid_pos-087": 0.000432  # 保持空格不变
+    "Guanidineacetic_acid_pos-087": 0.000432  # 使用下划线替代空格
 }
 
 # 创建函数，用于预测风险评分以及绘制累计风险函数和生存函数
@@ -26,7 +23,7 @@ def predict_risk(SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
     
     # 使用准确的列名，确保与训练时一致
     correct_columns = ["SDMA-ADMA_pos-140", "Thymine_pos-150", "Phosphocreatine_neg-067",
-                       "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic acid_pos-087"]  # 保证一致性
+                       "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic_acid_pos-087"]  # 保证一致性
 
     # 创建一个 DataFrame，确保列名与训练时一致
     input_data = pd.DataFrame([[SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
@@ -83,15 +80,4 @@ Guanidineacetic_acid_pos_087 = st.number_input("Guanidineacetic_acid_pos-087", v
 if st.button("Submit"):
     risk_score, cumulative_hazard_path, survival_function_path = predict_risk(
         SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
-        Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087
-    )
-
-    # 显示风险评分
-    st.subheader(f"Risk Score: {risk_score}")
-
-    # 显示生存分析图
-    st.subheader("Cumulative Hazard Function")
-    st.image(cumulative_hazard_path)
-
-    st.subheader("Survival Function")
-    st.image(survival_function_path)
+        Proline_pos_132, Glycerophosph
