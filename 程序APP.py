@@ -21,7 +21,7 @@ default_values = {
 def predict_risk(SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067, 
                  Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087):
     
-    # 定义正确的列名，确保与训练时一致
+    # 使用准确的列名，确保与训练时一致
     correct_columns = ["SDMA-ADMA_pos-140", "Thymine_pos-150", "Phosphocreatine_neg-067",
                        "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic_acid_pos-087"]
 
