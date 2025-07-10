@@ -21,8 +21,8 @@ def predict_risk(SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
                  Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087):
     
     # 将输入特征数据转换为 DataFrame，并使用训练时的特征名
-    input_data = pd.DataFrame([[SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
-                                Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087]],
+    input_data = pd.DataFrame([[SDMA_ADMA_pos-140, Thymine_pos-150, Phosphocreatine_neg-067,
+                                Proline_pos-132, Glycerophosphorylcholine_pos-080, Guanidineacetic_acid_pos-087]],
                               columns=["SDMA-ADMA_pos-140", "Thymine_pos-150", "Phosphocreatine_neg-067",
                                        "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic_acid_pos-087"])
 
