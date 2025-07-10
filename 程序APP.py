@@ -14,7 +14,7 @@ default_values = {
     "Phosphocreatine_neg-067": 0.000018,
     "Proline_pos-132": 0.111990,
     "Glycerophosphorylcholine_pos-080": 0.006630,
-    "Guanidineacetic_acid_pos-087": 0.000432
+    "Guanidineacetic_acid_pos-087": 0.000432  # 替换空格为下划线
 }
 
 # 创建函数，用于预测风险评分以及绘制累计风险函数和生存函数
@@ -23,11 +23,11 @@ def predict_risk(SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
     
     # 使用准确的列名，确保与训练时一致
     correct_columns = ["SDMA-ADMA_pos-140", "Thymine_pos-150", "Phosphocreatine_neg-067",
-                       "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic acid_pos-087"]
+                       "Proline_pos-132", "Glycerophosphorylcholine_pos-080", "Guanidineacetic_acid_pos-087"]  # 保证一致性
 
     # 创建一个 DataFrame，确保列名与训练时一致
     input_data = pd.DataFrame([[SDMA_ADMA_pos_140, Thymine_pos_150, Phosphocreatine_neg_067,
-                                Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087]],
+                                Proline_pos_132, Glycerophosphorylcholine_pos_080, Guanidineacetic_acid_pos_087]], 
                               columns=correct_columns)
 
     # 使用模型进行预测，获取风险评分
@@ -74,7 +74,7 @@ Thymine_pos_150 = st.number_input("Thymine_pos-150", value=default_values["Thymi
 Phosphocreatine_neg_067 = st.number_input("Phosphocreatine_neg-067", value=default_values["Phosphocreatine_neg-067"])
 Proline_pos_132 = st.number_input("Proline_pos-132", value=default_values["Proline_pos-132"])
 Glycerophosphorylcholine_pos_080 = st.number_input("Glycerophosphorylcholine_pos-080", value=default_values["Glycerophosphorylcholine_pos-080"])
-Guanidineacetic_acid_pos_087 = st.number_input("Guanidineacetic acid_pos-087", value=default_values["Guanidineacetic acid_pos-087"])
+Guanidineacetic_acid_pos_087 = st.number_input("Guanidineacetic_acid_pos-087", value=default_values["Guanidineacetic_acid_pos-087"])
 
 # 当用户点击 "Submit" 按钮时，进行预测并显示结果
 if st.button("Submit"):
